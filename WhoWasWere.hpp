@@ -21,7 +21,7 @@ class WhoWasWere final {
 		}
 	};
 
-	float scale = 0.1;
+	double scale = 0.1;
 
 	std::unordered_map<std::pair<int, int>, std::set<std::string>, hash_latlon> gridIndex;
 
