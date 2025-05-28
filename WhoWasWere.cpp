@@ -1,4 +1,5 @@
 #include "WhoWasWere.hpp"
+#include "DataTypes.hpp"
 
 
 using std::unordered_map;
@@ -7,39 +8,26 @@ using std::vector;
 using std::string;
 using std::set;
 
-WhoWasWere::WhoWasWere(unordered_map<int, vector<pair<std::time_t, pair<double, double>>>>& logs_,
-					   unordered_map<string, pair<pair<double, double>, pair<double, double>>>& places_) : logs(logs_), places(places_) {
-    fillGridIndex();
+WhoWasWere::WhoWasWere(unordered_map<int, vector<UserLogEntry>>& logs_, unordered_map<string, BoundingBox>& places_) : logs(logs_), places(places_) {
 
 }
 
-unordered_map<int, set<pair<std::time_t, string>>> WhoWasWere::getUserData() {
+unordered_map<int, set<UserVisit>> WhoWasWere::getUserData() {
+    for (const auto& [user_id, userLogs] : logs) {
+        for (const auto& userLog : userLogs) {
 
-    for (auto& [user_id, locals] : logs) {
-        for (auto& [timestamp, coords] : locals) {
-            std::pair<int, int> cell = getGridCell(coords.first, coords.second);
-            for (auto& local : gridIndex[cell]) {
-                userData[user_id].insert({timestamp, local});
+            for (const auto& [placeName, box] : places) {
+                const auto& [lat, lon] = userLog.coords;
+
+                bool insideLat = (lat >= box.bottomRight.lat && lat <= box.topLeft.lat);
+                bool insideLon = (lon <= box.bottomRight.lon && lat >= box.topLeft.lon);
+
+                if (insideLat && insideLon) {
+                    userData[user_id].insert({ userLog.timestamp, placeName });
+                }
             }
         }
     }
+
     return userData;
-}
-
-void WhoWasWere::fillGridIndex() {
-    for (auto& [place, coords] : places) {
-        for (double x = coords.first.first; x <= coords.second.first; x += scale) {
-            for (double y = coords.first.second; y <= coords.second.second; y += scale) {
-
-                std::pair<int, int> cell = getGridCell(x, y);
-                gridIndex[cell].insert(place);
-            }
-        }
-    }
-}
-
-std::pair<int, int> WhoWasWere::getGridCell(double lat, double lon) const {
-    int latKey = static_cast<int>(lat / scale);
-    int lonKey = static_cast<int>(lon / scale);
-    return { latKey, lonKey };
 }
