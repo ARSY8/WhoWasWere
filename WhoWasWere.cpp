@@ -20,7 +20,7 @@ unordered_map<int, set<UserVisit>> WhoWasWere::getUserData() {
                 const auto& [lat, lon] = userLog.coords;
 
                 bool insideLat = (lat >= box.bottomRight.lat && lat <= box.topLeft.lat);
-                bool insideLon = (lon <= box.bottomRight.lon && lat >= box.topLeft.lon);
+                bool insideLon = (lon <= box.bottomRight.lon && lon >= box.topLeft.lon);
 
                 if (insideLat && insideLon) {
                     userData[user_id].insert({ userLog.timestamp, placeName });
