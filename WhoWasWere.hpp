@@ -22,4 +22,3 @@ public:
 	std::unordered_map<int, std::set<UserVisit>> getUserData();
 private:
 };
-

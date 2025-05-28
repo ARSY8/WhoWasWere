@@ -29,12 +29,12 @@ protected:
         logs.close();
 
         std::ofstream places(placesFile);
-        places << "Moscow 55.7 37.6 55.8 37.7\n";
-        places << "SPB 59.9 30.2 59.9 30.3\n";
-        places << "Kiev 50.4 30.5 50.5 30.6\n";
-        places << "Berlin 52.4 13.3 52.6 13.5\n";
-        places << "Paris 48.8 2.3 48.9 2.4\n";
-        places << "Tokyo 35.6 139.7 35.7 139.8\n";
+        places << "Moscow 55.9 37.9 55.4 37.5\n";
+        places << "SPB 59.9 30.4 59.9 30.3\n";
+        places << "Kiev 50.6 30.7 50.3 30.4\n";
+        places << "Berlin 52.7 13.7 52.4 13.4\n";
+        places << "Paris 48.9 2.4 48.7 2.2\n";
+        places << "Tokyo 35.6 139.7 35.4 139.6\n";
         places.close();
     }
 
