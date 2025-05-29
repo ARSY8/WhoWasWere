@@ -12,7 +12,7 @@ using std::string;
 using std::set;
 
 std::unordered_map<int, std::vector<UserLogEntry>> ReaderWriter::logsFileReader(const string& fileName) {
-	
+
 	std::unordered_map<int, std::vector<UserLogEntry>> logs;
 
 	std::ifstream ifs(fileName);
@@ -24,7 +24,7 @@ std::unordered_map<int, std::vector<UserLogEntry>> ReaderWriter::logsFileReader(
 	string line;
 
 	while (std::getline(ifs, line)) {
-		
+
 		std::istringstream iss(line);
 
 		string datePart, timePart;
@@ -35,9 +35,7 @@ std::unordered_map<int, std::vector<UserLogEntry>> ReaderWriter::logsFileReader(
 			throw std::runtime_error("Не удалось прочитать строку");
 		}
 
-		if (coordY > 180 || coordY < 0 || coordX > 360 || coordX < 0) {
-			continue;
-		}
+		//if (coordY > 90 || coordY < -90 || coordX > 180 || coordX < -180) { continue; }
 
 		string timestamp = datePart + ' ' + timePart;
 
@@ -73,10 +71,10 @@ std::unordered_map<std::string, BoundingBox> ReaderWriter::placesFileReader(cons
 			throw std::runtime_error("Не удалось прочитать строку");
 		}
 
-		if (coordsLT.first > 180 || coordsLT.first < 0 || coordsLT.second > 360 || coordsLT.second < 0) { continue; }
-		if (coordsRB.first > 180 || coordsRB.first < 0 || coordsRB.second > 360 || coordsRB.second < 0) { continue; }
+		//if (coordsLT.first < -90 || coordsLT.first > 90 || coordsLT.second < -180 || coordsLT.second > 180) { continue; }
+		//if (coordsRB.first < -90 || coordsRB.first > 90 || coordsRB.second < -180 || coordsRB.second > 180) { continue; }
 
-		places[place] = {{ coordsLT.first, coordsLT.second },{ coordsRB.first, coordsRB.second }};
+		places[place] = { { coordsLT.first, coordsLT.second }, { coordsRB.first, coordsRB.second } };
 	}
 
 	ifs.close();

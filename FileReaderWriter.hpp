@@ -11,6 +11,7 @@
 class ReaderWriter final {
 	ReaderWriter() = delete;
 	~ReaderWriter() = delete;
+
 public:
 	static std::unordered_map<int, std::vector<UserLogEntry>> logsFileReader(const std::string& fileName);
 
